@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оставить заявку | Деловой Центр Партнер</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .booking-page {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .booking-container {
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .booking-card {
+            background-color: white;
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .booking-icon {
+            font-size: 3.5rem;
+            color: #4a6fa5;
+            margin-bottom: 24px;
+        }
+        
+        .booking-card h1 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: #2d3748;
+        }
+        
+        .booking-subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        
+        .booking-form {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: #f8fafc;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4a6fa5;
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(74, 111, 165, 0.1);
+        }
+        
+        .form-group input::placeholder {
+            color: #a0aec0;
+        }
+        
+        .btn-booking {
+            width: 100%;
+            padding: 18px;
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-booking:hover {
+            background-color: #3d5c8a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(74, 111, 165, 0.2);
+        }
+        
+        .booking-note {
+            margin-top: 24px;
+            padding: 16px;
+            background-color: #f0f7ff;
+            border-radius: 12px;
+            color: #4a6fa5;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .booking-footer-links {
+            margin-top: 32px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+        
+        .booking-footer-links a {
+            color: #718096;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+        
+        .booking-footer-links a:hover {
+            color: #4a6fa5;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            color: #48bb78;
+            margin-bottom: 24px;
+        }
+        
+        .success-message h2 {
+            color: #2d3748;
+            margin-bottom: 16px;
+        }
+        
+        .success-message p {
+            color: #718096;
+            margin-bottom: 32px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #4a6fa5;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 24px;
+        }
+        
+        @media (max-width: 640px) {
+            .booking-card {
+                padding: 32px 24px;
+            }
+            
+            .booking-card h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-page">
+        <div class="booking-container">
+            <div class="booking-card" id="bookingFormContainer">
+                <div class="booking-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <h1>Оставить заявку</h1>
+                <p class="booking-subtitle">Оставьте ваши контакты, мы перезвоним вам в ближайшее время</p>
+                
+                <form id="leadForm" class="booking-form">
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" name="name" required placeholder="Например: Анна Петрова">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Номер телефона</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-__-__">
+                    </div>
+                    
+                    <button type="submit" class="btn-booking">
+                        <i class="fas fa-paper-plane"></i> Отправить заявку
+                    </button>
+                </form>
+                
+                <div class="booking-note">
+                    <i class="fas fa-lock"></i>
+                    <span>Ваши данные в безопасности. Мы используем их только для связи с вами.</span>
+                </div>
+                
+                <div class="booking-footer-links">
+                    <a href="index.html">← На главную</a>
+                    <a href="tel:+78512123456">Позвонить</a>
+                </div>
+            </div>
+            
+            <div class="booking-card" id="successMessageContainer" style="display: none;">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Спасибо за заявку!</h2>
+                <p>Мы получили ваши контакты и свяжемся с вами в ближайшее время.</p>
+                <div style="margin: 24px 0; padding: 16px; background-color: #f8fafc; border-radius: 12px; text-align: left;" id="submittedInfo">
+                </div>
+                <a href="index.html" class="btn-booking" style="background-color: #718096; margin-top: 16px;">
+                    <i class="fas fa-home"></i> Вернуться на главную
+                </a>
+                <button onclick="location.reload()" class="back-link" style="background: none; border: none; cursor: pointer; margin-top: 16px;">
+                    ← Оставить еще заявку
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('leadForm');
+            const nameInput = document.getElementById('name');
+            const phoneInput = document.getElementById('phone');
+            const formContainer = document.getElementById('bookingFormContainer');
+            const successContainer = document.getElementById('successMessageContainer');
+            const submittedInfo = document.getElementById('submittedInfo');
+            
+            phoneInput.addEventListener('input', function(e) {
+                let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+                if (x) {
+                    e.target.value = !x[2] ? x[1] : '+7 (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+                }
+            });
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = nameInput.value.trim();
+                const phone = phoneInput.value.trim();
+                
+                if (!name) {
+                    alert('Пожалуйста, введите ваше имя');
+                    return;
+                }
+                
+                if (!phone || phone.length < 16) {
+                    alert('Пожалуйста, введите корректный номер телефона');
+                    return;
+                }
+                
+                const lead = {
+                    id: Date.now(),
+                    date: new Date().toLocaleString('ru-RU'),
+                    name: name,
+                    phone: phone,
+                    source: 'Сайт',
+                    status: 'Новая'
+                };
+                
+                let leads = JSON.parse(localStorage.getItem('partnerLeads')) || [];
+                leads.push(lead);
+                localStorage.setItem('partnerLeads', JSON.stringify(leads));
+                
+                let leadsList = JSON.parse(localStorage.getItem('partnerLeadsList')) || [];
+                leadsList.push({
+                    id: lead.id,
+                    timestamp: new Date().toISOString(),
+                    date: lead.date,
+                    name: name,
+                    phone: phone,
+                    service: 'Заявка с сайта',
+                    status: 'Новая'
+                });
+                localStorage.setItem('partnerLeadsList', JSON.stringify(leadsList));
+                
+                submittedInfo.innerHTML = `
+                    <p style="margin-bottom: 8px;"><strong>Имя:</strong> ${name}</p>
+                    <p style="margin-bottom: 0;"><strong>Телефон:</strong> ${phone}</p>
+                `;
+                
+                formContainer.style.display = 'none';
+                successContainer.style.display = 'block';
+                
+                nameInput.value = '';
+                phoneInput.value = '';
+            });
+        });
+    </script>
+</body>
+</html>

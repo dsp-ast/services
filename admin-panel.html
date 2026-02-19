@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Управление заявками | Деловой Центр Партнер</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7fafc;
+            color: #2d3748;
+        }
+        
+        .admin-header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .admin-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .admin-logo h1 {
+            font-size: 1.2rem;
+        }
+        
+        .admin-logo h1 span {
+            color: #4a6fa5;
+        }
+        
+        .admin-logo p {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .admin-user span {
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .logout-btn {
+            padding: 8px 16px;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 8px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .logout-btn:hover {
+            background: #cbd5e0;
+        }
+        
+        .admin-main {
+            padding: 24px 16px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: #f0f7ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a6fa5;
+            font-size: 1.2rem;
+        }
+        
+        .stat-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+        
+        .stat-info p {
+            color: #718096;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        
+        .leads-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .section-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.3rem;
+        }
+        
+        .export-btn {
+            padding: 10px 20px;
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .leads-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .leads-table th {
+            text-align: left;
+            padding: 12px;
+            color: #718096;
+            font-weight: 500;
+            font-size: 0.85rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .leads-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-new {
+            background: #ebf8ff;
+            color: #2b6cb0;
+        }
+        
+        .delete-btn {
+            padding: 6px;
+            background: none;
+            border: none;
+            color: #a0aec0;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .delete-btn:hover {
+            color: #e53e3e;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #a0aec0;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            color: #a0aec0;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .leads-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-logo">
+                <h1>Деловой Центр <span>Партнер</span></h1>
+                <p>Астрахань • Админ-панель</p>
+            </div>
+            <div class="admin-user">
+                <span><i class="fas fa-user-shield"></i></span>
+                <button class="logout-btn" onclick="window.location.href='admin.html'">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="admin-main">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="totalLeads">0</h3>
+                    <p>Всего заявок</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="todayLeads">0</h3>
+                    <p>За сегодня</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="newLeads">0</h3>
+                    <p>Новые</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="processedLeads">0</h3>
+                    <p>Обработано</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="leads-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list-alt"></i> Заявки с сайта</h2>
+                <button class="export-btn" id="exportBtn">
+                    <i class="fas fa-download"></i> Экспорт
+                </button>
+            </div>
+            
+            <div class="leads-table-container">
+                <table class="leads-table">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Имя</th>
+                            <th>Телефон</th>
+                            <th>Источник</th>
+                            <th>Статус</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Деловой Центр Партнер • Работаем более 15 лет</p>
+        </div>
+    </main>
+    
+    <script>
+        function loadLeads() {
+            const leads = JSON.parse(localStorage.getItem('partnerLeads')) || [];
+            const tableBody = document.getElementById('leadsTable');
+            
+            if (leads.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 16px; display: block;"></i>Нет заявок</td></tr>';
+                updateStats(leads);
+                return;
+            }
+            
+            let html = '';
+            leads.reverse().forEach(lead => {
+                html += `
+                    <tr>
+                        <td>${lead.date || new Date().toLocaleString('ru-RU')}</td>
+                        <td>${lead.name}</td>
+                        <td>${lead.phone}</td>
+                        <td>${lead.source || 'Сайт'}</td>
+                        <td><span class="status-badge status-new">${lead.status || 'Новая'}</span></td>
+                        <td><button class="delete-btn" onclick="deleteLead(${lead.id})"><i class="fas fa-trash"></i></button></td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = html;
+            updateStats(leads);
+        }
+        
+        function updateStats(leads) {
+            document.getElementById('totalLeads').textContent = leads.length;
+            
+            const today = new Date().toLocaleDateString('ru-RU');
+            const todayLeads = leads.filter(lead => (lead.date || '').includes(today)).length;
+            document.getElementById('todayLeads').textContent = todayLeads;
+            
+            const newLeads = leads.filter(lead => (lead.status || 'Новая') === 'Новая').length;
+            document.getElementById('newLeads').textContent = newLeads;
+            
+            const processed = leads.filter(lead => lead.status === 'Выполнена' || lead.status === 'Подтверждена').length;
+            document.getElementById('processedLeads').textContent = processed;
+        }
+        
+        window.deleteLead = function(id) {
+            if (confirm('Удалить заявку?')) {
+                let leads = JSON.parse(localStorage.getItem('partnerLeads')) || [];
+                leads = leads.filter(l => l.id !== id);
+                localStorage.setItem('partnerLeads', JSON.stringify(leads));
+                loadLeads();
+            }
+        };
+        
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            const leads = JSON.parse(localStorage.getItem('partnerLeads')) || [];
+            if (leads.length === 0) return;
+            
+            let csv = 'Дата,Имя,Телефон,Источник,Статус\n';
+            leads.forEach(lead => {
+                csv += `"${lead.date || ''}","${lead.name}","${lead.phone}","${lead.source || 'Сайт'}","${lead.status || 'Новая'}"\n`;
+            });
+            
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `zayavki_${new Date().toLocaleDateString('ru-RU')}.csv`;
+            a.click();
+        });
+        
+        loadLeads();
+    </script>
+</body>
+</html>
